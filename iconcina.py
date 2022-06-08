@@ -7,7 +7,7 @@ import datetime
 import time
 
 immagini = [immagine for immagine in Path.cwd().joinpath("immagini").iterdir()]
-with open("token.txt", "r") as file:
+with open("token.tkn", "r") as file:
     tkn = file.readline().strip()
 
 
@@ -22,7 +22,7 @@ class MyClient(discord.Client):
 async def update_counter(bot: MyClient):
     seconds:datetime.timedelta=(update_icon.next_iteration-datetime.datetime.now(datetime.timezone.utc)).seconds/60
     seconds=round(seconds)
-    activity= discord.Game(f"Next in {seconds}")
+    activity= discord.Game(f"Next in {seconds}'")
     await bot.change_presence(activity=activity)
 
 
@@ -39,8 +39,8 @@ async def update_icon(bot):
     await guild.edit(reason="Cambio periodico dell'immagine", icon=icon)
     end = time.time()
 
-    with open("log.csv","a") as file:
-        file.write(f"{datetime.datetime.now()},{scelta.name},{round(end-start,2)}")
+    with open("log.csv","a+",newline="\n") as file:
+        file.write(f"{datetime.datetime.now()},{scelta.name},{round(end-start,2)}\n")
 
 
 intents = discord.Intents.default()
